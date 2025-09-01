@@ -34,7 +34,7 @@ public class EmpDAOMybatis {
 		return emp;
 	}
 
-	private static SqlSession getSession() throws Exception {
+	static SqlSession getSession() throws Exception {
 		
 		String resource = "configuration.xml";
 		InputStream is = Resources.getResourceAsStream(resource);
@@ -43,6 +43,13 @@ public class EmpDAOMybatis {
 		return session;
 	}
 
+	public static Emp getEmpById(int id) throws Exception {
+		Emp emp = new Emp();
+		SqlSession session = getSession();
+		emp = session.selectOne("getEmpById2", id);
+		return emp;
+	}
+	
 	public static List<Emp> getEmpListByDeptNo(int deptNo) throws Exception {
 		List<Emp> result = new ArrayList<Emp>();
 		SqlSession session = getSession();
@@ -54,9 +61,8 @@ public class EmpDAOMybatis {
 	public static List<Emp> getEmpListByJobId(String jobId) throws Exception {
 		List<Emp> result = new ArrayList<Emp>();
 		SqlSession session = getSession();
-		result = session.selectList("getEmpListByDeptId", jobId);
+		result = session.selectList("getEmpListByJobId", jobId);
 		return result;
-		
 	}
 	
 

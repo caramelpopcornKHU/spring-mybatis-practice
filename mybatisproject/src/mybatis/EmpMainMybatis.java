@@ -11,14 +11,15 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class EmpMainMybatis {
 	public static void main(String[] args) throws Exception {
-		String resource = "configuration.xml";
-		InputStream is = Resources.getResourceAsStream(resource);
-		SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
-		SqlSession session = factory.openSession();
-		List<Emp> list =  session.selectList("getEmpListByDeptId", 80);
-		for(Emp vo : list) {
+		Emp emp = EmpDAOMybatis.getEmpById(145);
+		System.out.println(emp);
+		
+		List<Emp> empList = EmpDAOMybatis.getEmpListByJobId("IT_PROG");
+		
+		for (Emp vo : empList) {
 			System.out.println(vo);
 		}
 		
+
 	}
 }
