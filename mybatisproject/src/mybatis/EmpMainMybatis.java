@@ -13,13 +13,12 @@ public class EmpMainMybatis {
 	public static void main(String[] args) throws Exception {
 		Emp emp = EmpDAOMybatis.getEmpById(145);
 		System.out.println(emp);
-		
+
 		List<Emp> empList = EmpDAOMybatis.getEmpListByJobId("IT_PROG");
-		
+
 		for (Emp vo : empList) {
 			System.out.println(vo);
 		}
-		
 
 	}
 }
