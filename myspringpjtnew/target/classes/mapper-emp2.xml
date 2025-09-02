@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper-emp2">
+	<sql id="empColumns">
+		${alias}.employee_id id,
+		${alias}.first_name firstName,
+		${alias}.last_name lastName,
+		${alias}.email email,
+		${alias}.phone_number phoneNumber,
+		${alias}.hire_date hireDate,
+		${alias}.job_id JobId ,
+		${alias}.salary salary ,
+		${alias}.commission_pct commissionPct,
+		${alias}.manager_id managerId,
+		${alias}.department_id departmentId
+	</sql>
+
+	<select id="findEmpByYear" parameterType="int"
+		resultType="test01.Emp">
+		select
+		<include refid="empColumns">
+			<property name="alias" value="e" />
+		</include>
+		from employees e
+		where e.hire_date = #{year}
+	</select>
+
+	<select id="findEmpByDeptId" parameterType="int"
+		resultType="test01.Emp">
+		select
+		<include refid="empColumns">
+			<property name="alias" value="e" />
+		</include>
+		from employees e
+		where e.department_id = #{departmentId}
+	</select>
+
+	<select id="findEmpByManagerName" resultType="test01.Emp" parameterType="java.util.HashMap">
+		SELECT
+		e.employee_id id,
+		e.first_name firstName,
+		e.last_name lastName,
+		e.email email,
+		e.phone_number phoneNumber,
+		e.hire_date hireDate,
+		e.job_id JobId,
+		e.salary salary,
+		e.commission_pct
+		commissionPct,
+		e.manager_id managerId,
+		e.department_id departmentId,
+		b.first_name managerFirstName,
+		b.last_name managerLastName,
+		CONCAT(b.first_name, ' ', b.last_name) managerFullName
+		FROM
+		employees e
+		LEFT JOIN
+		employees b ON e.manager_id = b.employee_id
+		
+		WHERE
+		b.first_name= #{managerFirstName}
+		OR 
+		b.last_name = #{managerLastName}
+		OR
+		CONCAT(b.first_name, ' ', b.last_name) = #{managerFullName}
+
+	</select>
+
+	<select id="findByCity" parameterType="String"
+		resultType="test01.Emp">
+		SELECT
+		e.employee_id id,
+		e.first_name firstName,
+		e.last_name
+		lastName,
+		e.email email,
+		e.phone_number phoneNumber,
+		e.hire_date
+		hireDate,
+		e.job_id JobId,
+		e.salary salary,
+		e.commission_pct
+		commissionPct,
+		e.manager_id managerId,
+		e.department_id departmentId,
+		l.city city
+		FROM
+		employees e
+		LEFT JOIN
+		departments d ON e.department_id =
+		d.department_id
+		left join
+		locations l on d.location_id = l.location_id
+		where
+		l.city = #{city}
+	</select>
+
+	<select id="findEmpByName" parameterType="map"
+		resultType="test01.Emp">
+		select
+		<include refid="empColumns">
+			<property name="alias" value="e" />
+		</include>
+		from employees e
+		where
+		 e.first_name = #{firstName}
+		or
+		 e.last_name = #{lastName}
+		or
+		CONCAT(e.first_name, ' ', e.last_name) = #{fullName}
+	</select>
+</mapper>
