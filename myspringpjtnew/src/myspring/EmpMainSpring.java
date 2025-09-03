@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class EmpMainSpring {
@@ -17,9 +18,13 @@ public class EmpMainSpring {
 		int deptNo = 100;
 		String jobId = "IT_PROG";
 
-		// 스프링 컨테이너
-		ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+		// 스프링 컨테이너 - xml로 되어있는걸 사용하겟다
+//		ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
 
+		// 스프링 컨테이너 - annotation 되어있는걸 사용하겟다
+		ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+
+		
 		// 스프링 컨테이너가 스프링 객체를 가지고 있다가 이렇게 이름을 출력
 		String[] nameList = context.getBeanDefinitionNames();
 		for (String name : nameList) {

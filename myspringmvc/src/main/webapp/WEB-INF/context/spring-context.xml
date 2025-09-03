@@ -34,7 +34,7 @@
 		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 
-	<context:component-scan base-package="myspring"></context:component-scan>
+	<context:component-scan base-package="lx.edu.springmvc"></context:component-scan>
 
 
 </beans>

@@ -189,7 +189,8 @@ class MyClass {
 ## Mybatis와 Spring Maven
 
 **spring-context와 spring-jdbc 버전이 같아야해!!**  
-pom.xml
+pom.xml  
+-> <packaging>과 <build> 사이에 <dependencies> 넣기
 
 ```xml
 <dependencies>
