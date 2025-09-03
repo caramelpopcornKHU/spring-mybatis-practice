@@ -41,11 +41,9 @@
 		where 1=1
 		<choose>
 			<when test="firstName != null">
-				AND first_name = #{firstName}
-			</when>
+				AND first_name = #{firstName} </when>
 			<when test="lastName != null">
-				AND last_name = #{lastName}
-			</when>
+				AND last_name = #{lastName} </when>
 		</choose>
 	</select>
 	

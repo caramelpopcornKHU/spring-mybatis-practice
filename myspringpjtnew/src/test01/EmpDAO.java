@@ -44,14 +44,11 @@ public class EmpDAO {
 		String chooser;
 		String name;
 		System.out.print("1: first_name, 2: last_name, 3: full_name  -> ");chooser = scan.next();
-		
+		scan.nextLine();
 		Map<String, String> map = new HashMap<>();
 		
-		map.put("managerFirstName", "");
-		map.put("managerLastName", "");
-		map.put("managerFullName", "");
 		
-		System.out.print("이름 입력: "); name = scan.next();
+		System.out.print("이름 입력: "); name = scan.nextLine();
 		
 		switch(chooser) {
 		case "1":
@@ -67,58 +64,33 @@ public class EmpDAO {
 		
 		return session.selectList("findEmpByManagerName", map);
 	}
-	
 	public List<Emp> findByCity(String city) throws Exception{
-		ArrayList<Emp> result = new ArrayList<>();
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/newhr", "root", "rootroot");
-		Statement stmt = connection.createStatement();
-		String sql = "select employee_id, department_id, first_name, last_name, DATE_FORMAT(hire_date, '%Y-%m-%d') hd, email, salary, email from EMPLOYEES where DEPARTMENT_ID "
-				+ "in (select DEPARTMENT_ID from DEPARTMENTS where LOCATION_ID = "
-				+ "(select LOCATION_ID from LOCATIONS where lower(city) ='"+city+"'))";
-		
-		ResultSet rs = stmt.executeQuery(sql);
-		
-		while(rs.next()) {
-			Emp emp = new Emp();
-			emp.empId = rs.getInt("employee_id");
-			emp.deptId = rs.getInt("department_id");
-			emp.firstName = rs.getString("first_name");
-			emp.lastName = rs.getString("last_name");
-			emp.hireDate = rs.getString("hd");
-			emp.salary = rs.getInt("salary");
-			emp.email = rs.getString("email");
-			result.add(emp);
-		}
-		connection.close();
-		return result;
+		return session.selectList("findByCity", city);
 	}
-	public List<Emp> findEmpByName(String firstName) throws Exception {
-		ArrayList<Emp> result = new ArrayList();
-
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/newhr", "root", "rootroot");
-		Statement stmt = connection.createStatement();
+	public List<Emp> findEmpByName() throws Exception {
+		Scanner scan = new Scanner(System.in);
+		String chooser;
+		String name;
+		System.out.print("1: first_name, 2: last_name, 3: full_name  -> ");chooser = scan.next();
+		scan.nextLine();
+		Map<String, String> map = new HashMap<>();
 		
-		// 이름을 입력하고 그 이름에 해당하는 사원의 정보를 불러오는 sql 쿼리 문장을 넣어줌
-		String sql = "select employee_id, department_id, first_name, last_name, DATE_FORMAT(hire_date, '%Y-%m-%d') hd, email, salary, email "
-				      + "from employees "
-				      + "where lower(first_name) ='" + firstName.toLowerCase()+"'";   
-		ResultSet rs = stmt.executeQuery(sql);  // 
-		while(rs.next()) {
-			Emp tempEmp = new Emp();
-			tempEmp.empId=rs.getInt("employee_id");
-			tempEmp.deptId=rs.getInt("department_id");
-			tempEmp.firstName=rs.getString("first_name");
-			tempEmp.lastName=rs.getString("last_name");
-			tempEmp.hireDate=rs.getString("hd");
-			tempEmp.salary=rs.getInt("salary");
-			tempEmp.email=rs.getString("email");
-			result.add(tempEmp);
-		}
 		
-		connection.close();
-		return result;
+		System.out.print("이름 입력: "); name = scan.nextLine();
+		
+		switch(chooser) {
+	    case "1":
+	        map.put("firstName", name);
+	        break;
+	    case "2":
+	        map.put("lastName", name);
+	        break;
+	    case "3":
+	        map.put("fullName", name);
+	        break;
+	    }
+		
+		return session.selectList("findEmpByName", map);
 	}
 
 }

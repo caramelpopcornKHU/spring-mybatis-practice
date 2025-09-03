@@ -12,42 +12,40 @@ import org.springframework.stereotype.Service;
 public class EmpServiceImpl implements EmpService {
 
 	@Autowired
-	EmpDAO dao; 
+	EmpDAO dao;
 
 	@Override
-	public void setDAO(EmpDAO dao) {
-		this.dao = dao;
+	public List<Emp> findEmpByYear(int year) throws Exception {
+		return this.dao.findEmpByYear(year);
 	}
 
 	@Override
-	public ArrayList<Emp> findEmpByYear(int year) throws Exception {
-		return null;
-	}
-
-	@Override
-	public ArrayList<Emp> findEmpByDeptId(int deptId) throws Exception {
-		return null;
+	public List<Emp> findEmpByDeptId(int deptId) throws Exception {
+		return this.dao.findEmpByDeptId(deptId);
 	}
 
 	@Override
 	public void printStat() throws Exception {
-		
 	}
 
 	@Override
-	public void findEmpByManagerName(@Param("managerFirstName") String managerFirstName, @Param("managerLastName") String managerLastName, @Param("managerFullName") String managerFullName) throws Exception {
-		
+	public List<Emp> findEmpByManagerName() throws Exception {
+		return this.dao.findEmpByManagerName();
 	}
 
 	@Override
-	public ArrayList<Emp> findByCity(String city) throws Exception {
-		return null;
+	public List<Emp> findByCity(String city) throws Exception {
+		return this.dao.findByCity(city);
 	}
 
 	@Override
-	public ArrayList<Emp> findEmpByName(@Param("firstName") String firstName,@Param("lastName") String lastName,@Param("fullName") String fullName) throws Exception {
-		return null;
+	public List<Emp> findEmpByName() throws Exception {
+		return this.dao.findEmpByName();
 	}
+
+	
+
+	
 
 	
 

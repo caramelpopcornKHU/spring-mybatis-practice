@@ -22,7 +22,7 @@
 			<property name="alias" value="e" />
 		</include>
 		from employees e
-		where e.hire_date = #{year}
+		where year(e.hire_date) = #{year}
 	</select>
 
 	<select id="findEmpByDeptId" parameterType="int"
@@ -35,7 +35,8 @@
 		where e.department_id = #{departmentId}
 	</select>
 
-	<select id="findEmpByManagerName" resultType="test01.Emp" parameterType="java.util.HashMap">
+	<select id="findEmpByManagerName" resultType="test01.Emp"
+		parameterType="java.util.HashMap">
 		SELECT
 		e.employee_id id,
 		e.first_name firstName,
@@ -49,20 +50,33 @@
 		commissionPct,
 		e.manager_id managerId,
 		e.department_id departmentId,
-		b.first_name managerFirstName,
+		b.first_name
+		managerFirstName,
 		b.last_name managerLastName,
-		CONCAT(b.first_name, ' ', b.last_name) managerFullName
+		CONCAT(b.first_name, ' ',
+		b.last_name) managerFullName
 		FROM
 		employees e
 		LEFT JOIN
-		employees b ON e.manager_id = b.employee_id
-		
-		WHERE
-		b.first_name= #{managerFirstName}
-		OR 
-		b.last_name = #{managerLastName}
-		OR
-		CONCAT(b.first_name, ' ', b.last_name) = #{managerFullName}
+		employees b ON
+		e.manager_id = b.employee_id
+
+		<where>
+			<choose>
+				<when
+					test="managerFirstName != null and managerFirstName != ''">
+					b.first_name= #{managerFirstName}
+				</when>
+				<when test="managerLastName != null and managerLastName != ''">
+					b.last_name = #{managerLastName}
+				</when>
+				<when test="managerFullName != null and managerFullName != ''">
+					CONCAT(b.first_name, ' ', b.last_name) = #{managerFullName}
+				</when>
+			</choose>
+		</where>
+		<!-- WHERE b.first_name= #{managerFirstName} OR b.last_name = #{managerLastName} 
+			OR CONCAT(b.first_name, ' ', b.last_name) = #{managerFullName} -->
 
 	</select>
 
@@ -102,11 +116,18 @@
 			<property name="alias" value="e" />
 		</include>
 		from employees e
-		where
-		 e.first_name = #{firstName}
-		or
-		 e.last_name = #{lastName}
-		or
-		CONCAT(e.first_name, ' ', e.last_name) = #{fullName}
+		<where>
+			<choose>
+				<when test="firstName != null and firstName != ''">
+					e.first_name = #{firstName}
+				</when>
+				<when test="lastName != null and lastName != ''">
+					e.last_name = #{lastName}
+				</when>
+				<when test="fullName != null and fullName != ''">
+					CONCAT(e.first_name, ' ', e.last_name) = #{fullName}
+				</when>
+			</choose>
+		</where>
 	</select>
 </mapper>
