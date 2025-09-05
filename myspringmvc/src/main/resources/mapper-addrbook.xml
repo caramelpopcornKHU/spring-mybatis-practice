@@ -16,15 +16,14 @@
 	</select>
 
 	<select id="getDB" parameterType="int" resultType="lx.edu.springmvc.vo.AddrBookVO">
-		select ab_id abId
-		,ab_name
-		abName
-		,ab_email abEmail
-		,ab_comdept abComdept
-		,ab_birth abBirth
-		,ab_tel
-		abTel
-		,ab_memo abMemo 
+		select 
+		ab_id abId,
+		ab_name abName,
+		ab_email abEmail,
+		ab_comdept abComdept,
+		ab_birth abBirth,
+		ab_tel abTel,
+		ab_memo abMemo 
 		from addrbook 
 		where ab_id = #{abId}
 	</select>

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,17 +56,21 @@ public class AddrBookController {
 
 	@RequestMapping("/addrbook_list.do")
 	public String list(HttpSession session, HttpServletRequest req) throws Exception {
-		if(session.getAttribute("userId")==null) {
-			return "login";
-		}
+//		public ModelAndView list(HttpSession session, HttpServletRequest req) throws Exception {
+
+		// -> 이런식으로 검증하면 안되고 filter나 인터셉터
+		//		if(session.getAttribute("userId")==null) {
+//			return "login";
+//		}
 		
 		List<AddrBookVO> list = dao.getDBList();
+		req.setAttribute("data", list);
 		return "addrbook_list";
 
 		// req.setAttribute("data", list);
 		// 이렇게 안하고 모델 앤 뷰에 담아서 보내기
-		//ModelAndView result = new ModelAndView();
-		//result.addObject("data", list);
+//		ModelAndView result = new ModelAndView();
+	//	result.addObject("data", list);
 		//result.setViewName("addrbook_list");
 		//return result;
 	}
